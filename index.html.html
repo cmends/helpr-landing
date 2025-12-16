@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Helpr - Your AI Employee That Never Sleeps</title>
+    <meta name="description" content="AI that replies to customers, sends invoices, and chases payments. For freelancers and solo businesses who are tired of being their own receptionist.">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Helpr - Your AI Employee That Never Sleeps">
+    <meta property="og:description" content="Replies to customers. Sends invoices. Chases payments. For freelancers who are tired of being their own receptionist.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://gethelprapp.com">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Helpr - Your AI Employee That Never Sleeps">
+    <meta name="twitter:description" content="Replies to customers. Sends invoices. Chases payments. For freelancers who are tired of being their own receptionist.">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Tally Script -->
+    <script src="https://tally.so/widgets/embed.js"></script>
+    
+    <style>
+        :root {
+            --bg-primary: #09090b;
+            --bg-secondary: #0f0f11;
+            --bg-card: #151518;
+            --bg-card-hover: #1a1a1e;
+            --text-primary: #fafafa;
+            --text-secondary: #a1a1aa;
+            --text-muted: #63636e;
+            --accent: #10b981;
+            --accent-light: #34d399;
+            --accent-glow: rgba(16, 185, 129, 0.12);
+            --accent-glow-strong: rgba(16, 185, 129, 0.25);
+            --accent-hover: #059669;
+            --border: #232329;
+            --border-hover: #2e2e36;
+            --red-soft: rgba(239, 68, 68, 0.12);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Subtle grid background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 0 24px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 16px 0;
+            background: rgba(9, 9, 11, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+            z-index: 100;
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .nav-cta {
+            background: var(--text-primary);
+            color: var(--bg-primary);
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .nav-cta:hover {
+            background: var(--accent);
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 120px 0 80px;
+            position: relative;
+        }
+
+        /* Gradient orb */
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 6px 14px;
+            border-radius: 100px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 28px;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .badge-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.1); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2.75rem, 7vw, 4.25rem);
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            margin-bottom: 20px;
+            animation: fadeIn 0.5s ease 0.1s forwards;
+            opacity: 0;
+        }
+
+        h1 .highlight {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.05rem, 2vw, 1.25rem);
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 40px;
+            line-height: 1.7;
+            animation: fadeIn 0.5s ease 0.2s forwards;
+            opacity: 0;
+        }
+
+        /* CTA Buttons */
+        .cta-group {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeIn 0.5s ease 0.3s forwards;
+            opacity: 0;
+            margin-bottom: 16px;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+            padding: 16px 32px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 20px 40px -15px var(--accent-glow-strong);
+        }
+
+        .btn-secondary {
+            background: var(--bg-card);
+            color: var(--text-primary);
+            padding: 16px 32px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            border: 1px solid var(--border);
+            transition: all 0.2s ease;
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--border-hover);
+        }
+
+        .form-note {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            animation: fadeIn 0.5s ease 0.35s forwards;
+            opacity: 0;
+        }
+
+        .social-proof {
+            margin-top: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            animation: fadeIn 0.5s ease 0.4s forwards;
+            opacity: 0;
+        }
+
+        .avatar-stack {
+            display: flex;
+        }
+
+        .avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--bg-card);
+            border: 2px solid var(--bg-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            margin-left: -10px;
+        }
+
+        .avatar:first-child {
+            margin-left: 0;
+        }
+
+        .social-proof-text {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .social-proof-text strong {
+            color: var(--text-secondary);
+        }
+
+        /* Sections */
+        .section-header {
+            text-align: center;
+            margin-bottom: 64px;
+        }
+
+        .section-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 12px;
+        }
+
+        h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+        }
+
+        h2 .subtle {
+            color: var(--text-secondary);
+        }
+
+        /* Pain Section */
+        .pain-section {
+            padding: 100px 0;
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .pain-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        @media (max-width: 800px) {
+            .pain-grid {
+                grid-template-columns: 1fr;
+                max-width: 400px;
+                margin: 0 auto;
+            }
+        }
+
+        .pain-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 28px;
+            transition: all 0.2s ease;
+        }
+
+        .pain-card:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-4px);
+        }
+
+        .pain-icon {
+            font-size: 2rem;
+            margin-bottom: 16px;
+        }
+
+        .pain-card h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .pain-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* Solution Section */
+        .solution-section {
+            padding: 100px 0;
+        }
+
+        .solution-header {
+            text-align: center;
+            margin-bottom: 64px;
+        }
+
+        .solution-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-top: 12px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        @media (max-width: 800px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+                max-width: 400px;
+                margin: 0 auto;
+            }
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 32px 28px;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+
+        .feature-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 0 40px -15px var(--accent-glow);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* How Section */
+        .how-section {
+            padding: 100px 0;
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .how-header {
+            text-align: center;
+            margin-bottom: 64px;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 800px) {
+            .steps {
+                grid-template-columns: 1fr;
+                max-width: 400px;
+            }
+        }
+
+        .step {
+            text-align: center;
+        }
+
+        .step-number {
+            width: 48px;
+            height: 48px;
+            background: var(--accent-glow);
+            border: 2px solid var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin: 0 auto 20px;
+        }
+
+        .step h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .step p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 120px 0;
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            margin-bottom: 16px;
+        }
+
+        .cta-section .hero-subtitle {
+            opacity: 1;
+            animation: none;
+            margin-bottom: 40px;
+        }
+
+        /* Footer */
+        footer {
+            padding: 40px 0;
+            border-top: 1px solid var(--border);
+        }
+
+        footer .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        footer p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 24px;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.2s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--text-primary);
+        }
+
+        @media (max-width: 600px) {
+            footer .container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .cta-group {
+                flex-direction: column;
+                gap: 12px;
+            }
+            
+            .btn-primary, .btn-secondary {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <a href="#" class="logo">
+                <span class="logo-icon">⚡</span>
+                Helpr
+            </a>
+            <button class="nav-cta" onclick="openWaitlist()">Join Waitlist</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="badge">
+                    <span class="badge-dot"></span>
+                    Now accepting early access
+                </div>
+                <h1>Your AI employee that <span class="highlight">never sleeps</span></h1>
+                <p class="hero-subtitle">
+                    Replies to customers. Sends invoices. Chases payments.<br>
+                    For freelancers who are tired of being their own receptionist.
+                </p>
+                
+                <div class="cta-group">
+                    <button class="btn-primary" onclick="openWaitlist()">
+                        Join Waitlist →
+                    </button>
+                    <a href="#how" class="btn-secondary">
+                        See How It Works
+                    </a>
+                </div>
+                <p class="form-note">Free early access for first 100 signups</p>
+
+                <div class="social-proof">
+                    <div class="avatar-stack">
+                        <div class="avatar">👩‍💻</div>
+                        <div class="avatar">👨‍🎨</div>
+                        <div class="avatar">👩‍🔧</div>
+                        <div class="avatar">📸</div>
+                    </div>
+                    <p class="social-proof-text">Join <strong>50+ freelancers</strong> on the waitlist</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pain Section -->
+    <section class="pain-section">
+        <div class="container">
+            <div class="section-header">
+                <p class="section-label">Sound familiar?</p>
+                <h2>You're great at your craft.<br><span class="subtle">Running the business? Exhausting.</span></h2>
+            </div>
+            
+            <div class="pain-grid">
+                <div class="pain-card">
+                    <div class="pain-icon">💬</div>
+                    <h3>Slow replies = lost clients</h3>
+                    <p>A potential client messaged 6 hours ago. You just saw it. They've already hired someone else.</p>
+                </div>
+                <div class="pain-card">
+                    <div class="pain-icon">💸</div>
+                    <h3>Unpaid invoices pile up</h3>
+                    <p>You finished a job 3 weeks ago. Still haven't been paid. Following up feels awkward.</p>
+                </div>
+                <div class="pain-card">
+                    <div class="pain-icon">🔄</div>
+                    <h3>Same questions, every day</h3>
+                    <p>"What are your rates?" "Are you available Saturday?" You answer these 10 times a week.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solution Section -->
+    <section class="solution-section">
+        <div class="container">
+            <div class="solution-header">
+                <p class="section-label">The solution</p>
+                <h2>Meet your AI employee</h2>
+                <p>Works 24/7. Never complains. Gets you paid faster.</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Instant Auto-Replies</h3>
+                    <p>Connect WhatsApp. Tell us about your services. We reply to common questions instantly—even at 3am.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📄</div>
+                    <h3>One-Click Invoices</h3>
+                    <p>Say "Invoice John $500 for logo design" and we generate a professional PDF and send it. Done.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔔</div>
+                    <h3>Payment Chaser</h3>
+                    <p>Unpaid invoice? We send polite, professional reminders until you get paid. No more awkward texts.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-section" id="how">
+        <div class="container">
+            <div class="how-header">
+                <p class="section-label">How it works</p>
+                <h2>Up and running in 5 minutes</h2>
+            </div>
+
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Connect WhatsApp</h3>
+                    <p>Link your WhatsApp Business. Takes 2 minutes, no tech skills needed.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Train your AI</h3>
+                    <p>Tell us your services, rates, and FAQs. We learn to respond like you.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Let it work</h3>
+                    <p>Your AI handles messages, invoices, and reminders. You focus on your craft.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="cta-section" id="waitlist">
+        <div class="container">
+            <p class="section-label">Stop being a receptionist</p>
+            <h2>Join the waitlist</h2>
+            <p class="hero-subtitle">First 100 signups get free early access.</p>
+            
+            <button class="btn-primary" onclick="openWaitlist()">
+                Get Early Access →
+            </button>
+            <p class="form-note" style="margin-top: 16px;">No credit card required</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>© 2025 Helpr. Built for freelancers, by freelancers.</p>
+            <div class="footer-links">
+                <a href="mailto:hello@gethelprapp.com">Contact</a>
+                <a href="https://twitter.com" target="_blank">Twitter</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function openWaitlist() {
+            Tally.openPopup('MeXk8k', {
+                layout: 'modal',
+                width: 500,
+                overlay: true,
+                emoji: { text: '⚡', animation: 'wave' },
+                autoClose: 3000,
+                onSubmit: function() {
+                    console.log('Helpr waitlist submission successful');
+                }
+            });
+        }
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
